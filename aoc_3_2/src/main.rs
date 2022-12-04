@@ -4,7 +4,6 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 
-
 fn main() {
     let args: Vec<String> = env::args().collect();
     let path = &args[1];
@@ -19,10 +18,8 @@ fn main() {
                     sum += handle_triplet(&elves);
                     wrapper = 0;
                 }
-                if wrapper < 3 {
-                    elves[wrapper] = String::from(rucksack);
-                    wrapper += 1;
-                }
+                elves[wrapper] = String::from(rucksack);
+                wrapper += 1;
             }
         }
         sum += handle_triplet(&elves);
@@ -55,12 +52,15 @@ fn handle_triplet(elves: &Vec<String>) -> i32 {
 
 fn common_value_in_sets(elves_sets: Vec<HashSet<char>>) -> char {
     let common = **elves_sets
-    .iter()
-    .fold(None, |acc: Option<HashSet<&char>>, hs| {
-        let hs = hs.iter().map(|s| s).collect();
-        acc.map(|a| a.intersection(&hs).map(|s| *s).collect())
-            .or(Some(hs))
-    }).unwrap().iter().collect::<Vec<&&char>>()[0];
+        .iter()
+        .fold(None, |acc: Option<HashSet<&char>>, hs| {
+            let hs = hs.iter().map(|s| s).collect();
+            acc.map(|a| a.intersection(&hs).map(|s| *s).collect())
+                .or(Some(hs))
+        })
+        .unwrap()
+        .iter()
+        .collect::<Vec<&&char>>()[0];
     common
 }
 
